@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -48,7 +48,7 @@ interface Agent {
 
 const COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
 
-export default function CustomerDashboard() {
+function CustomerDashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const agentParam = searchParams.get('agentId');
@@ -623,6 +623,23 @@ export default function CustomerDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CustomerDashboard() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
+        <Card className="max-w-lg w-full text-center">
+          <CardHeader>
+            <CardTitle>Loading...</CardTitle>
+            <CardDescription>Please wait while we load your dashboard.</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    }>
+      <CustomerDashboardContent />
+    </Suspense>
   );
 }
 
