@@ -4,7 +4,8 @@ import path from 'path';
 
 type DatabaseType = InstanceType<typeof Database>;
 
-const dbPath = path.join(process.cwd(), 'db', 'shyftoff.db');
+const defaultDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'db');
+const dbPath = process.env.SQLITE_DB_PATH ?? path.join(defaultDir, 'shyftoff.db');
 
 let dbInstance: DatabaseType | null = null;
 
